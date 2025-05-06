@@ -14,7 +14,7 @@ session_path = os.getenv("TELE_SESSION_PATH")  # Path for session file
 
 group_chat_ids = ["BananaGun_bot", "fluxbeam_bot", "solana_trojanbot", "TrenchScannerBot", "Phanes_bot", "SyraxScannerBot"] 
 
-# # Create the Telegram client
+# Create the Telegram client for first run
 # client = TelegramClient(session_name, api_id, api_hash)
 
 class SafetyCheck(BaseModel):
