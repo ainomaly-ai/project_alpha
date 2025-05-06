@@ -1,3 +1,6 @@
+# Ignore all compiled Python code
+*__pycache__/
+
 dexscreener
 andriod-data-extractor
 .env
