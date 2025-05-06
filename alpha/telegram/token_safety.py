@@ -1,4 +1,6 @@
 import os
+from pydantic import BaseModel
+from typing import Optional
 from telethon import TelegramClient, events
 from dotenv import load_dotenv
 
@@ -15,44 +17,39 @@ group_chat_ids = ["BananaGun_bot", "fluxbeam_bot", "solana_trojanbot", "TrenchSc
 # # Create the Telegram client
 # client = TelegramClient(session_name, api_id, api_hash)
 
+class SafetyCheck(BaseModel):
+    ca : Optional [str] = None
 
-async def main():
-    """
-    Connects to Telegram, send and starts listening for new messages, and keeps the connection alive.
-    """
-    async with TelegramClient(session_path, api_id, api_hash) as client:
-    
-        await client.connect()
-
-        for group_id in group_chat_ids:
-            await client.send_message(group_id, "8Yb3LKFK5ftyTWRJJ6VsZufoZvHCYAKim8MDRzkspump")
-        await client.send_message("th_sol_scanner_bot", "/thp 8Yb3LKFK5ftyTWRJJ6VsZufoZvHCYAKim8MDRzkspump") 
+    async def main(self):
+        """
+        Connects to Telegram, send and starts listening for new messages, and keeps the connection alive.
+        """
+        async with TelegramClient(session_path, api_id, api_hash) as client:
         
-        print(f"Message sent to groups")
+            await client.connect()
 
-
-
-        print("Listening for new messages...")
-
-        @client.on(events.NewMessage())
-        async def my_new_message_handler(event):
-            """
-            This function is called whenever a new message is received.
-            """
-            sender = await event.get_sender()
-            chat = await event.get_chat()
-            message_text = event.message.message
-
-            chat_id = event.chat.id
+            for group_id in group_chat_ids:
+                await client.send_message(group_id, self.ca)
+            await client.send_message(f"th_sol_scanner_bot", "/thp {self.ca}") 
             
-            if chat.id in group_chat_ids:
-                print(f"New message from  ({sender.username}) in : {message_text}")
+            print(f"Message sent to groups")
 
-        
-        # Keep the client running until manually stopped
-        await client.run_until_disconnected()
+            print("Listening for new messages...")
 
+            @client.on(events.NewMessage())
+            async def my_new_message_handler(event):
+                """
+                This function is called whenever a new message is received.
+                """
+                sender = await event.get_sender()
+                chat = await event.get_chat()
+                message_text = event.message.message
 
-if __name__ == '__main__':
-    import asyncio
-    asyncio.run(main())
+                chat_id = event.chat.id
+                
+                if chat.id in group_chat_ids:
+                    print(f"New message from  ({sender.username}) in : {message_text}")
+
+            
+            # Keep the client running until manually stopped
+            await client.run_until_disconnected()
