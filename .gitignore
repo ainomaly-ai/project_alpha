@@ -1,6 +1,6 @@
 # Ignore all compiled Python code
 *__pycache__/
-
+*.pickle
 dexscreener
 andriod-data-extractor
 .env
